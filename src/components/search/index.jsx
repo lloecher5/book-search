@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "./style.css";
+import Modal from "../modal/modal";
 
 function Search() {
   const [fieldData, setFieldData] = useState({
@@ -9,12 +11,19 @@ function Search() {
   //state used to update the UI with data from API
   const [response, setResponse] = useState(null);
 
+  //state used to render the description
+  const [description, setDescription] = useState(null);
+
   const renderData = (data) => {
     //gets the information about the books from API
     const books = data.docs;
 
     const listOfBooks = books.map((book, index) => {
-      return <li key={index}>{book.title}</li>;
+      return (
+        <li data-bookid={book.key} key={index}>
+          {book.title}
+        </li>
+      );
     });
 
     //sets the state to the array of html elements
@@ -52,20 +61,48 @@ function Search() {
       .then((data) => renderData(data));
   };
 
+  const secondFetch = (e) => {
+    const bookid = e.target.dataset.bookid;
+    console.log(bookid);
+    fetch(`http://openlibrary.org${bookid}.json`)
+      .then((res) => res.json())
+      .then((data) => renderDescription(data));
+  };
+
+  const renderDescription = (data) => {
+    const bookDescription = data.description;
+
+    setDescription(bookDescription);
+  };
+
+  const removeModal = () => {
+    setDescription(null);
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="form__field">
           <label htmlFor="author">Author </label>
           <input onChange={handleChange} id="author" type="text"></input>
         </div>
-        <div>
+        <div className="form__field">
           <label htmlFor="title">Title </label>
           <input onChange={handleChange} id="title" type="text"></input>
         </div>
         <button type="submit">Submit</button>
       </form>
-      {response && <ul>{response}</ul>}
+      {response && (
+        <div className="results">
+          <h2>Search Results</h2>
+          <ul onClick={secondFetch} className="results__books">
+            {response}
+          </ul>
+        </div>
+      )}
+      {description && (
+        <Modal removeModal={removeModal} description={description} />
+      )}
     </div>
   );
 }

@@ -1,11 +1,12 @@
 import Search from "./components/search";
+import Header from "./sectioning/header/header";
 
 import "./app.css";
 
 function App() {
   return (
     <div className="App">
-      <header>Header will go here.</header>
+      <Header />
       <Search />
     </div>
   );
