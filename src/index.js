@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./style.css";
 import App from "./app";
+import Search from "./routes/search/search";
+import About from "./routes/about/about";
+import Login from "./routes/login/login";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
@@ -10,6 +13,9 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="search" element={<Search />} />
+        <Route path="about" element={<About />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
