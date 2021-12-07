@@ -1,23 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./style.css";
 import App from "./app";
 import Search from "./routes/search/search";
 import About from "./routes/about/about";
 import Login from "./routes/login/login";
+import Redux from "./routes/redux/redux";
+
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="search" element={<Search />} />
-        <Route path="about" element={<About />} />
-        <Route path="login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="search" element={<Search />} />
+          <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
+          <Route path="redux" element={<Redux />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
