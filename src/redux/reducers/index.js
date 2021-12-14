@@ -8,7 +8,7 @@ function appReducer(state = initialState, action) {
   switch (action.type) {
     case GET_NEW_FRIENDS: {
       return {
-        friends: action.friends,
+        friends: [...state.friends, action.friend],
       };
     }
     default:

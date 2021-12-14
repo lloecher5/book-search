@@ -1,27 +1,34 @@
 import "./style.css";
 import Header from "../../sectioning/header/header";
 import { connect } from "react-redux";
-import getNewFriends from "../../redux/actions/getNewFriends";
+import { useState } from "react";
+import addNewFriends from "../../redux/actions/getNewFriends";
 
-function Redux({ friends, getNewFriends }) {
+function Redux({ friends, addNewFriends }) {
+  const [newFriend, setNewFriend] = useState("");
   const amigos = friends.map((friend, index) => {
     return <li key={index}> {friend}</li>;
   });
 
   const handleClick = () => {
-    getNewFriends();
+    addNewFriends(newFriend);
+    setNewFriend("");
+  };
+  const handleChange = (e) => {
+    setNewFriend(e.target.value);
   };
   return (
     <div>
-      <Header />I am redux
+      <Header />
       <ul>{amigos}</ul>
+      <input onChange={handleChange} type="text" value={newFriend} />
       <button onClick={handleClick}>Get New friends</button>
     </div>
   );
 }
 
 const mapDispatchToProps = {
-  getNewFriends,
+  addNewFriends,
 };
 
 const mapStateToProps = (state) => ({
